@@ -18,11 +18,20 @@
             <li class="with-x" v-if="searchParams.keyword">
               {{ searchParams.keyword }}<i @click="removeKeyword">x</i>
             </li>
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(":")[1]
+              }}<i @click="removeTrademark">x</i>
+            </li>
+            <li
+              class="with-x"
+              v-for="(prop, index) in searchParams.props"
+              :key="index"
+            >{{prop.split(":")[1]}}<i @click="removeProps(index)">x</i></li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -177,10 +186,31 @@ export default {
       this.$router.push({ name: "search", params: this.$route.params });
     },
     removeKeyword() {
-      this.searchParams.keyword = undefined
-      this.$bus.$emit('clear')
-      this.$router.push({name: 'search', query: this.$route.query})
-    }
+      this.searchParams.keyword = undefined;
+      this.$bus.$emit("clear");
+      this.$router.push({ name: "search", query: this.$route.query });
+    },
+    removeTrademark() {
+      this.searchParams.trademark = undefined;
+      this.getData();
+    },
+    removeProps(index) {
+      // console.log(index)
+      this.searchParams.props.splice(index, 1)
+    },
+    trademarkInfo(trademark) {
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+      this.getData();
+      // console.log('123124')
+    },
+    attrInfo(attr, attrValue) {
+      console.log(attr, attrValue);
+      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
+      if (this.searchParams.props.indexOf(props) == -1) {
+        this.searchParams.props.push(props)
+      }
+      this.getData()
+    },
   },
   watch: {
     $route(newValue, oldValue) {
