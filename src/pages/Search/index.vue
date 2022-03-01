@@ -4,7 +4,7 @@
     <div class="main">
       <div class="py-container">
         <!--bread:面包屑，带有x的结构的-->
-        <div class="bread">
+        <div class="bread"> 
           <ul class="fl sui-breadcrumb">
             <li>
               <a href="#">全部结果</a>
@@ -26,7 +26,9 @@
               class="with-x"
               v-for="(prop, index) in searchParams.props"
               :key="index"
-            >{{prop.split(":")[1]}}<i @click="removeProps(index)">x</i></li>
+            >
+              {{ prop.split(":")[1] }}<i @click="removeProps(index)">x</i>
+            </li>
           </ul>
         </div>
 
@@ -38,23 +40,20 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: isOne }" @click="changeOrder('1')">
+                  <a>综合
+                    <span
+                      v-show="isOne"
+                      class="iconfont"
+                      :class="{ 'icon-arrowdown' : isAsc, 'icon-up': !isAsc}"
+                    ></span>
+                  </a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }" @click="changeOrder('2')">
+                  <a>价格 
+                    <span v-show="isTwo"  class="iconfont"
+                      :class="{ 'icon-arrowdown' : isAsc, 'icon-up': !isAsc}"></span
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -104,35 +103,7 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <Pagination :pageNo="16" :pageSize="5" :total="80" :continues="5" />
         </div>
       </div>
     </div>
@@ -153,7 +124,7 @@ export default {
         category3Id: "",
         categoryName: "",
         keyword: "",
-        order: "",
+        order: "1:desc",
         pageNo: 1,
         pageSize: 3,
         props: [],
@@ -173,6 +144,15 @@ export default {
   },
   computed: {
     ...mapGetters(["goodsList"]),
+    isOne() {
+      return this.searchParams.order.indexOf("1") != -1;
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf("2") != -1;
+    },
+    isAsc() {
+      return this.searchParams.order.indexOf("asc") != -1;
+    },
   },
   methods: {
     getData() {
@@ -196,7 +176,7 @@ export default {
     },
     removeProps(index) {
       // console.log(index)
-      this.searchParams.props.splice(index, 1)
+      this.searchParams.props.splice(index, 1);
     },
     trademarkInfo(trademark) {
       this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
@@ -207,10 +187,22 @@ export default {
       console.log(attr, attrValue);
       let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
       if (this.searchParams.props.indexOf(props) == -1) {
-        this.searchParams.props.push(props)
+        this.searchParams.props.push(props);
       }
-      this.getData()
+      this.getData();
     },
+    changeOrder(flag) {
+      let originFlag = this.searchParams.order.split(":")[0]
+      let originSort = this.searchParams.order.split(":")[1]
+      let newOrigin = ''
+      if (flag == originFlag) {
+        newOrigin = `${originFlag}:${originSort == "desc" ? "asc" : "desc"}`
+      } else {
+        newOrigin = `${flag}:${"desc"}`
+      }
+      this.searchParams.order = newOrigin
+      this.getData()
+    }
   },
   watch: {
     $route(newValue, oldValue) {

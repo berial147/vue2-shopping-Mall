@@ -3,6 +3,7 @@ import App from './App.vue'
 //三级联动的组件----全局组件
 import TypeNav from '@/components/TypeNav'
 import Carousel from '@/components/Carousel'
+import Pagination from '@/components/Pagination'
 
 // Vue.config.productionTip = false
 //引入路由
@@ -16,6 +17,7 @@ import store from './store'
 
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carousel.name, Carousel)
+Vue.component(Pagination.name, Pagination)
 import '@/mock/mockServe'
 
 //引入swiper样式
