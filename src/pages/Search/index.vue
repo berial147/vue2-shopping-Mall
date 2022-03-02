@@ -4,7 +4,7 @@
     <div class="main">
       <div class="py-container">
         <!--bread:面包屑，带有x的结构的-->
-        <div class="bread"> 
+        <div class="bread">
           <ul class="fl sui-breadcrumb">
             <li>
               <a href="#">全部结果</a>
@@ -41,18 +41,23 @@
             <div class="navbar-inner filter">
               <ul class="sui-nav">
                 <li :class="{ active: isOne }" @click="changeOrder('1')">
-                  <a>综合
+                  <a
+                    >综合
                     <span
                       v-show="isOne"
                       class="iconfont"
-                      :class="{ 'icon-arrowdown' : isAsc, 'icon-up': !isAsc}"
+                      :class="{ 'icon-arrowdown': isAsc, 'icon-up': !isAsc }"
                     ></span>
                   </a>
                 </li>
                 <li :class="{ active: isTwo }" @click="changeOrder('2')">
-                  <a>价格 
-                    <span v-show="isTwo"  class="iconfont"
-                      :class="{ 'icon-arrowdown' : isAsc, 'icon-up': !isAsc}"></span
+                  <a
+                    >价格
+                    <span
+                      v-show="isTwo"
+                      class="iconfont"
+                      :class="{ 'icon-arrowdown': isAsc, 'icon-up': !isAsc }"
+                    ></span
                   ></a>
                 </li>
               </ul>
@@ -67,9 +72,9 @@
               >
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
-                      ><img :src="good.defaultImg"
-                    /></a>
+                    <router-link :to="`/detail/${good.id}`">
+                      <img :src="good.defaultImg">
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -103,7 +108,13 @@
               </li>
             </ul>
           </div>
-          <Pagination :pageNo="searchParams.pageNo" :pageSize="searchParams.pageSize" :total="total" :continues="5" @getPageNo="getPageNo"/>
+          <Pagination
+            :pageNo="searchParams.pageNo"
+            :pageSize="searchParams.pageSize"
+            :total="total"
+            :continues="5"
+            @getPageNo="getPageNo"
+          />
         </div>
       </div>
     </div>
@@ -145,7 +156,7 @@ export default {
   computed: {
     ...mapGetters(["goodsList"]),
     ...mapState({
-      total: state => state.search.searchList.total
+      total: (state) => state.search.searchList.total,
     }),
     isOne() {
       return this.searchParams.order.indexOf("1") != -1;
@@ -195,21 +206,21 @@ export default {
       this.getData();
     },
     changeOrder(flag) {
-      let originFlag = this.searchParams.order.split(":")[0]
-      let originSort = this.searchParams.order.split(":")[1]
-      let newOrigin = ''
+      let originFlag = this.searchParams.order.split(":")[0];
+      let originSort = this.searchParams.order.split(":")[1];
+      let newOrigin = "";
       if (flag == originFlag) {
-        newOrigin = `${originFlag}:${originSort == "desc" ? "asc" : "desc"}`
+        newOrigin = `${originFlag}:${originSort == "desc" ? "asc" : "desc"}`;
       } else {
-        newOrigin = `${flag}:${"desc"}`
+        newOrigin = `${flag}:${"desc"}`;
       }
-      this.searchParams.order = newOrigin
-      this.getData()
+      this.searchParams.order = newOrigin;
+      this.getData();
     },
     getPageNo(pageNo) {
-       this.searchParams.pageNo = pageNo
-       this.getData()
-    }
+      this.searchParams.pageNo = pageNo;
+      this.getData();
+    },
   },
   watch: {
     $route(newValue, oldValue) {

@@ -17,7 +17,7 @@
                   <a
                     :data-categoryName="c1.categoryName"
                     :data-category1Id="c1.category1Id"
-                    >{{ c1.categoryName + index }}</a
+                    >{{ c1.categoryName }}</a
                   >
                 </h3>
                 <div
