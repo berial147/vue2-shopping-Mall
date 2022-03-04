@@ -1,9 +1,9 @@
 <template>
   <div class="spec-preview">
-    <img src="../images/s1.png" />
+    <img :src="imgObj.imgUrl" />
     <div class="event"></div>
     <div class="big">
-      <img src="../images/s1.png" />
+      <img :src="imgObj.imgUrl" />
     </div>
     <div class="mask"></div>
   </div>
@@ -12,6 +12,12 @@
 <script>
   export default {
     name: "Zoom",
+    props: ['getSkyImageList'],
+    computed: {
+      imgObj() {
+        return this.getSkyImageList[0] || {}
+      }
+    }
   }
 </script>
 
