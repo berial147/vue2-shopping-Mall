@@ -1,11 +1,11 @@
 import { reqGetGoodInfo } from '@/api'
 
-const store = {
+const state = {
     goodInfo: {}
 }
 const mutations = {
     GETGOODINFO(state, goodInfo) {
-        state.goodInfo = JSON.parse(JSON.stringify(goodInfo))
+        state.goodInfo = goodInfo
     }
 }
 const actions = {
@@ -19,16 +19,15 @@ const actions = {
 }
 const getters = {
     categoryView(state) {
-        console.log(state.goodInfo, '11111111111')
         return state.goodInfo.categoryView || {}
     },
-    goodInfos(state) {
-        return state.goodInfo
+    skuInfo(state) {
+        return state.goodInfo.skuInfo || {}
     }
 }
 
 export default {
-    store,
+    state,
     mutations,
     actions,
     getters

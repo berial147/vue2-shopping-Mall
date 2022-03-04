@@ -7,11 +7,11 @@
     <section class="con">
       <!-- 导航路径区域 -->
       <div class="conPoin">
-        <!-- <span v-show="categoryView.category1Name">{{categoryView.category1Name}}</span>
+        <span v-show="categoryView.category1Name">{{categoryView.category1Name}}</span>
         <span v-show="categoryView.category2Name">{{categoryView.category2Name}}</span>
         <span v-show="categoryView.category3Name">{{categoryView.category3Name}}</span>
-         -->
-        <div>111{{ goodInfos }}</div>
+        
+        <!-- <div>111{{ categoryView }}</div> -->
       </div>
       <!-- 主要内容区域 -->
       <div class="mainCon">
@@ -26,7 +26,7 @@
         <div class="InfoWrap">
           <div class="goodsDetail">
             <h3 class="InfoName">
-              Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机
+              {{skuInfo.skuName}}
             </h3>
             <p class="news">
               推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返
@@ -38,7 +38,7 @@
                 </div>
                 <div class="price">
                   <i>¥</i>
-                  <em>5299</em>
+                  <em>{{skuInfo.price}}</em>
                   <span>降价通知</span>
                 </div>
                 <div class="remark">
@@ -350,7 +350,7 @@
 <script>
 import ImageList from "./ImageList/ImageList";
 import Zoom from "./Zoom/Zoom";
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Detail",
@@ -361,12 +361,7 @@ export default {
   },
   computed: {
     // ...mapState(['goodInfo'])
-    ...mapGetters(["categoryView", "goodInfos"]),
-  },
-  data() {
-    return {
-      data: {},
-    };
+    ...mapGetters(["categoryView", "skuInfo"]),
   },
   beforeCreate() {
     // if (this.categoryView) {
@@ -375,18 +370,20 @@ export default {
     // console.log(this.categoryView, 222222222);
   },
   created() {
+    },
+  mounted() {
+    
     this.$store.dispatch("getGoodInfos", this.$route.params.skuid);
-    },
-  mounted() {},
-  watch: {
-    goodInfos: {
-      handler(val) {
-        console.log(val, "xxx");
-      },
-      deep: true,
-      immediate: true,
-    },
   },
+  // watch: {
+  //   goodInfos: {
+  //     handler(val) {
+  //       console.log(val, "xxx");
+  //     },
+  //     deep: true,
+  //     immediate: true,
+  //   },
+  // },
 };
 </script>
 
