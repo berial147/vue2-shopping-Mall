@@ -24,8 +24,8 @@ const getters = {
     skuInfo(state) {
         return state.goodInfo.skuInfo || {}
     },
-    skuSaleAttrList(state) {
-        return state.goodInfo.skuInfo.skuSaleAttrValueList || []
+    spuSaleAttrList(state) {
+        return state.goodInfo.spuSaleAttrList || []
     }
 }
 

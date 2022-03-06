@@ -77,9 +77,9 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl v-for="(skuSale, index) in skuSaleAttrList" :key="skuSale.id">
+              <dl v-for="(skuSale, index) in spuSaleAttrList" :key="skuSale.id">
                 <dt class="title">{{skuSale.saleAttrName}}</dt>
-                <dd changepirce="0" class="active">{{skuSale.saleAttrValueName}}</dd>
+                <dd changepirce="0" :class="{active: skuValue.isChecked == '1'}" v-for="(skuValue, index) in skuSale.spuSaleAttrValueList" :key="skuValue.id">{{skuValue.saleAttrValueName}}</dd>
               </dl>
             </div>
             <div class="cartWrap">
@@ -341,7 +341,7 @@ export default {
   },
   computed: {
     // ...mapState(['goodInfo'])
-    ...mapGetters(["categoryView", "skuInfo", 'skuSaleAttrList']),
+    ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
     getSkyImageList() {
       return this.skuInfo.skuImageList || []
     }
