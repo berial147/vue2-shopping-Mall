@@ -7,10 +7,16 @@
     <section class="con">
       <!-- 导航路径区域 -->
       <div class="conPoin">
-        <span v-show="categoryView.category1Name">{{categoryView.category1Name}}</span>
-        <span v-show="categoryView.category2Name">{{categoryView.category2Name}}</span>
-        <span v-show="categoryView.category3Name">{{categoryView.category3Name}}</span>
-        
+        <span v-show="categoryView.category1Name">{{
+          categoryView.category1Name
+        }}</span>
+        <span v-show="categoryView.category2Name">{{
+          categoryView.category2Name
+        }}</span>
+        <span v-show="categoryView.category3Name">{{
+          categoryView.category3Name
+        }}</span>
+
         <!-- <div>111{{ categoryView }}</div> -->
       </div>
       <!-- 主要内容区域 -->
@@ -26,7 +32,7 @@
         <div class="InfoWrap">
           <div class="goodsDetail">
             <h3 class="InfoName">
-              {{skuInfo.skuName}}
+              {{ skuInfo.skuName }}
             </h3>
             <p class="news">
               推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返
@@ -38,7 +44,7 @@
                 </div>
                 <div class="price">
                   <i>¥</i>
-                  <em>{{skuInfo.price}}</em>
+                  <em>{{ skuInfo.price }}</em>
                   <span>降价通知</span>
                 </div>
                 <div class="remark">
@@ -78,18 +84,36 @@
             <div class="chooseArea">
               <div class="choosed"></div>
               <dl v-for="(skuSale, index) in spuSaleAttrList" :key="skuSale.id">
-                <dt class="title">{{skuSale.saleAttrName}}</dt>
-                <dd changepirce="0" :class="{active: skuValue.isChecked == '1'}" v-for="(skuValue, index) in skuSale.spuSaleAttrValueList" :key="skuValue.id" @click="changeActive(skuValue,skuSale.spuSaleAttrValueList)">{{skuValue.saleAttrValueName}}</dd>
+                <dt class="title">{{ skuSale.saleAttrName }}</dt>
+                <dd
+                  changepirce="0"
+                  :class="{ active: skuValue.isChecked == '1' }"
+                  v-for="(skuValue, index) in skuSale.spuSaleAttrValueList"
+                  :key="skuValue.id"
+                  @click="changeActive(skuValue, skuSale.spuSaleAttrValueList)"
+                >
+                  {{ skuValue.saleAttrValueName }}
+                </dd>
               </dl>
             </div>
-            <div class="cartWrap"> 
+            <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input
+                  autocomplete="off"
+                  class="itxt"
+                  v-model="skuName"
+                  @change="changeSkuName"
+                />
+                <a href="javascript:" class="plus" @click="skuName++">+</a>
+                <a
+                  href="javascript:"
+                  class="mins"
+                  @click="skuName > 1 ? skuName-- : (skuName = 1)"
+                  >-</a
+                >
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addShopcar">加入购物车</a>
               </div>
             </div>
           </div>
@@ -334,7 +358,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Detail",
-
+  data() {
+    return {
+      skuName: 1,
+    };
+  },
   components: {
     ImageList,
     Zoom,
@@ -343,8 +371,8 @@ export default {
     // ...mapState(['goodInfo'])
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
     getSkyImageList() {
-      return this.skuInfo.skuImageList || []
-    }
+      return this.skuInfo.skuImageList || [];
+    },
   },
   beforeCreate() {
     // if (this.categoryView) {
@@ -352,10 +380,8 @@ export default {
     // }
     // console.log(this.categoryView, 222222222);
   },
-  created() {
-    },
+  created() {},
   mounted() {
-    
     this.$store.dispatch("getGoodInfos", this.$route.params.skuid);
   },
   // watch: {
@@ -369,12 +395,31 @@ export default {
   // },
   methods: {
     changeActive(saleAttrValue, arr) {
-      arr.forEach(item => {
-        item.isChecked = '0'
+      arr.forEach((item) => {
+        item.isChecked = "0";
       });
-      saleAttrValue.isChecked = '1'
-    }
-  }
+      saleAttrValue.isChecked = "1";
+    },
+    changeSkuName(event) {
+      let Value = event.target.value * 1;
+      if (isNaN(Value) || Value < 1) {
+        console.log("非法");
+        this.skuName = 1;
+      } else {
+        this.skuName = parseInt(Value);
+      }
+    },
+    async addShopcar() {
+      try {
+        await this.$store.dispatch("addOrUpdateShopCart", {
+          skuId: this.$route.params.skuid,
+          skuNum: this.skuName,
+        });
+      } catch (error) {
+        alert(error.message)
+      }
+    },
+  },
 };
 </script>
 
