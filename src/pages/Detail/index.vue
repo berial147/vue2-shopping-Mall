@@ -415,7 +415,8 @@ export default {
           skuId: this.$route.params.skuid,
           skuNum: this.skuName,
         });
-        this.$router.push({name: 'addcartsuccess'})
+        sessionStorage.setItem("SKUINFO", JSON.stringify(this.skuInfo))
+        this.$router.push({name: 'addcartsuccess', query:{skuNum: this.skuName}})
       } catch (error) {
         alert(error.message)
       }
