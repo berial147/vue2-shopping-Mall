@@ -415,6 +415,7 @@ export default {
           skuId: this.$route.params.skuid,
           skuNum: this.skuName,
         });
+        this.$router.push({name: 'addcartsuccess'})
       } catch (error) {
         alert(error.message)
       }
