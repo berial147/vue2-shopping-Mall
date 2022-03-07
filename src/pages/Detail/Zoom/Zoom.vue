@@ -12,11 +12,22 @@
 <script>
   export default {
     name: "Zoom",
+    data() {
+      return {
+        currentIndex: 0
+      }
+    },
     props: ['getSkyImageList'],
     computed: {
       imgObj() {
-        return this.getSkyImageList[0] || {}
+        return this.getSkyImageList[this.currentIndex] || {}
       }
+    },
+    mounted() {
+      this.$bus.$on('getIndex', (index) => {
+        console.log(index)
+        this.currentIndex = index
+      })
     }
   }
 </script>
