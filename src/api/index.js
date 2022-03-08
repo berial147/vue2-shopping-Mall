@@ -21,3 +21,7 @@ export const reqGetGoodInfo = (skuId) => requests({url: `/item/${skuId}`, method
 
 export const reqAddOrUpdateShopCart = (skuId, skuNum) => requests({url: `/cart/addToCart/${skuId}/${skuNum}`, method:"post"})
 
+//获取购物车列表数据接口
+//URL:/api/cart/cartList method:get
+export const reqCartList = () => requests({url: '/cart/cartList', method: 'get'})
+

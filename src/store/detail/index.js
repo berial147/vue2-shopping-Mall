@@ -1,7 +1,10 @@
 import { reqGetGoodInfo, reqAddOrUpdateShopCart} from '@/api'
+//封装游客身份模块uuid-->生成一个随机字符串（不能再变了）
+import { getUUID } from '@/utils/uuid_token'
 
 const state = {
-    goodInfo: {}
+    goodInfo: {},
+    uuid_token: getUUID()
 }
 const mutations = {
     GETGOODINFO(state, goodInfo) {
