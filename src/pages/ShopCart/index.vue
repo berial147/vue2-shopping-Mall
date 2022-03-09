@@ -56,7 +56,7 @@
             <span class="sum">{{ cart.skuNum * cart.skuPrice }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a class="sindelet" @click="deleteData(cart.skuId)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -89,6 +89,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import throttle from 'lodash/throttle'
 
 export default {
   name: "ShopCart",
@@ -98,6 +99,14 @@ export default {
   methods: {
     getData() {
       this.$store.dispatch("getCartList");
+    },
+    deleteData(skuId) {
+        try {
+          this.$store.dispatch("deleteCartListBySkuId", skuId)
+          this.getData()
+        } catch {
+          alert('请求错误')
+        }
     },
     async handler(type, disNum, cart) {
       switch (type) {
