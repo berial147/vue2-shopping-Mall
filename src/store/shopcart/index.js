@@ -39,6 +39,17 @@ const actions = {
             PromiseAll.push(Promise)
         })
         return Promise.all(PromiseAll)
+    },
+    updateAllCartIsChecked({dispatch, state}, isChecked) {
+        let promiseAll = []
+        state.cartList[0].cartInfoList.forEach((item) => {
+            let promise = dispatch('reqUpdateCheckedById', {
+                skuId: item.skuId,
+                isChecked
+            })
+            promiseAll.push(promise)
+        })
+        return Promise.all(promiseAll)
     }
 }
 const getters = {
