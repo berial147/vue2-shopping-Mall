@@ -21,6 +21,7 @@
               type="checkbox"
               name="chk_list"
               :checked="cart.isChecked == 1"
+              @change="updateChecked(cart, $event)"
             />
           </li>
           <li class="cart-list-con2">
@@ -89,7 +90,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import throttle from 'lodash/throttle'
 
 export default {
   name: "ShopCart",
@@ -101,12 +101,12 @@ export default {
       this.$store.dispatch("getCartList");
     },
     deleteData(skuId) {
-        try {
-          this.$store.dispatch("deleteCartListBySkuId", skuId)
-          this.getData()
-        } catch {
-          alert('请求错误')
-        }
+      try {
+        this.$store.dispatch("deleteCartListBySkuId", skuId);
+        this.getData();
+      } catch {
+        alert("请求错误");
+      }
     },
     async handler(type, disNum, cart) {
       switch (type) {
@@ -118,20 +118,34 @@ export default {
           break;
         case "change":
           if (isNaN(disNum) || disNum < 1) {
-            disNum=0
+            disNum = 0;
           } else {
-            disNum = parseInt(disNum) - cart.skuNum
+            disNum = parseInt(disNum) - cart.skuNum;
           }
-          break
+          break;
       }
       try {
         await this.$store.dispatch("addOrUpdateShopCart", {
           skuId: cart.skuId,
           skuNum: disNum,
         });
-        this.getData()
+        this.getData();
       } catch (error) {
-        alert('错误')
+        alert("错误");
+      }
+    },
+    //修改某个产品勾选的状态
+    async updateChecked(cart, event) {
+      try {
+        //如果修改成功了，再次获取服务器的数据
+        let isChecked = event.target.checked ? 1 : 0;
+        await this.$store.dispatch("reqUpdateCheckedById", {
+          skuId: cart.skuId,
+          isChecked,
+        });
+        this.getData()
+      } catch {
+        alert("error");
       }
     },
   },
