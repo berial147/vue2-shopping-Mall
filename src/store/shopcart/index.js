@@ -31,6 +31,14 @@ const actions = {
         } else {
             return Promise.reject(new Error('faile'))
         }
+    },
+    deleteAllCheckedCart({dispatch, getters}) {
+        let PromiseAll = []
+        getters.cartList.cartInfoList.forEach(item => {
+            let Promise = item.isChecked == 1 ? dispatch('deleteCartListBySkuId', item.skuId) : ''
+            PromiseAll.push(Promise)
+        })
+        return Promise.all(PromiseAll)
     }
 }
 const getters = {
