@@ -30,7 +30,7 @@
                 </label>
                 <span class="forget">忘记密码？</span>
               </div>
-              <button class="btn" @click="userLogin">登&nbsp;&nbsp;录</button>
+              <button class="btn" @click.prevent="userLogin">登&nbsp;&nbsp;录</button>
             </form>
 
             <div class="call clearFix">
@@ -47,7 +47,7 @@
       </div>
     </div>
     <!-- 底部 -->
-    <div class="copyright">
+     <div class="copyright">
       <ul>
         <li>关于我们</li>
         <li>联系我们</li>
@@ -76,7 +76,8 @@
     },
     methods: {
       userLogin() {
-        alert('123')
+        const {phone, password} = this
+        phone && password && this.$store.dispatch('userLogin', {phone, password})
       }
     }
   }

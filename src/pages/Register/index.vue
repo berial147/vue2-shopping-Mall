@@ -94,7 +94,7 @@ export default {
 
       try {
         const { phone, code, password, password1 } = this;
-        (phone && code && password == password1) && await this.$store.dispatch("userRegister", {phone,code,password,})
+        (phone && code && password == password1) && await this.$store.dispatch("userRegister", {phone,code,password})
         this.$router.push('/login')
       } catch (error) {
         alert('重新输入')

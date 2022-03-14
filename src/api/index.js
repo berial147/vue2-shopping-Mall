@@ -43,5 +43,5 @@ export const reqUserRegister = (data) => requests({url: '/user/passport/register
 
 //登录
 //url: /api/user/passport/login method: post phone password
-export const reqUserLogin = (data) => requests({url: '/user/passport/login', data, methods: 'post'})
+export const reqUserLogin = (data) => requests({url: '/user/passport/login', data, method: 'post'})
 
