@@ -19,10 +19,18 @@ VueRouter.prototype.push = function (location, resolve, reject) {
 }
 
 //配置路由
-export default new VueRouter({
+const router =  new VueRouter({
     routes: routes, 
-    //滚动行为
+    //滚动行为  
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }
-    }
-})
+    },
+ 
+})  
+ router.beforeEach((to, from, next) => {
+    console.log(to.name)
+    next()
+})  
+
+
+export default router

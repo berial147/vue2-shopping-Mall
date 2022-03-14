@@ -59,6 +59,7 @@ const actions = {
     //token验证
     async getUserInfo({commit}) {
         let result = await reqUserInfo()
+        console.log(result)
         if (result.code == 200) {
             console.log('11311')
             commit('USERINFO', result.data)
