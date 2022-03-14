@@ -1,8 +1,9 @@
-import { reqGetCode, reqUserRegister, reqUserLogin } from '@/api'
+import { reqGetCode, reqUserRegister, reqUserLogin, reqUserInfo } from '@/api'
 //登录与注册的模块
 const state = {
     code: '',
-    token: ''
+    token: '',
+    userInfo: {}
 }
 const mutations = {
     GETCODE(state, code) {
@@ -10,9 +11,13 @@ const mutations = {
     },
     USERLOGIN(state, token) {
         state.token = token
+    },
+    USERINFO(state, userInfo) {
+        state.userInfo = userInfo
     }
 }
 const actions = {
+    //获取验证码
     async getCode({commit}, phone) {
         let result = await reqGetCode(phone)
         if (result.code == 200) {
@@ -40,6 +45,17 @@ const actions = {
         //将来经常通过带token找服务器要用户信息
         if (result.code == 200) {
             commit("USERLOGIN", result.data.token)
+        } else {
+            return Promise.reject(new Error('faile'))
+        }
+    },
+    //token验证
+    async getUserInfo({commit}) {
+        let result = await reqUserInfo()
+        if (result.code == 200) {
+            console.log('11311')
+            commit('USERINFO', result.data)
+            return 'ok'
         } else {
             return Promise.reject(new Error('faile'))
         }

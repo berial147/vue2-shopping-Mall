@@ -75,9 +75,15 @@
       }
     },
     methods: {
-      userLogin() {
-        const {phone, password} = this
-        phone && password && this.$store.dispatch('userLogin', {phone, password})
+      async userLogin() {
+        try {
+          const {phone, password} = this
+          phone && password && (await this.$store.dispatch('userLogin', {phone, password}))
+          this.$router.push('/home')
+        } catch(error) {
+          alert('登录错误')
+        }
+      
       }
     }
   }

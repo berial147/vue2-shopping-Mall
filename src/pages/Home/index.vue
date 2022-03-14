@@ -25,6 +25,7 @@ export default{
     name: '',
     mounted() {
         this.$store.dispatch('getFloorList')
+        this.$store.dispatch('getUserInfo')
     },
     components: {
         ListContainer,
