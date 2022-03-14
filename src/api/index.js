@@ -49,3 +49,7 @@ export const reqUserLogin = (data) => requests({url: '/user/passport/login', dat
 //url: /api/user/passport/auth/getUserInfo method: get
 export const reqUserInfo = () => requests({url:'/user/passport/auth/getUserInfo', method:'get'})
 
+//退出登录
+//URL: /api/user/passport/logout method: get
+export const reqLogout = () => requests({url: '/user/passport/logout', method: 'get'})
+

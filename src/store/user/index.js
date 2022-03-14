@@ -1,8 +1,9 @@
-import { reqGetCode, reqUserRegister, reqUserLogin, reqUserInfo } from '@/api'
+import { reqGetCode, reqUserRegister, reqUserLogin, reqUserInfo, reqLogout } from '@/api'
+import { setToken, getToken, removeToken } from '@/utils/token'
 //登录与注册的模块
 const state = {
     code: '',
-    token: '',
+    token: getToken(),
     userInfo: {}
 }
 const mutations = {
@@ -14,6 +15,11 @@ const mutations = {
     },
     USERINFO(state, userInfo) {
         state.userInfo = userInfo
+    },
+    CLEAR(state) {
+        state.token = ''
+        state.userInfo = {}
+        removeToken()
     }
 }
 const actions = {
@@ -45,6 +51,7 @@ const actions = {
         //将来经常通过带token找服务器要用户信息
         if (result.code == 200) {
             commit("USERLOGIN", result.data.token)
+            setToken(result.data.token)
         } else {
             return Promise.reject(new Error('faile'))
         }
@@ -59,6 +66,15 @@ const actions = {
         } else {
             return Promise.reject(new Error('faile'))
         }
+    },
+    async userLogout({commit}) {
+        let result = await reqLogout()
+       if (result.code == 200) {
+           commit('CLEAR')
+           return 'ok'
+       } else {
+           return Promise.reject(new Error('faile'))
+       }
     }
 }
 const getters = {}
