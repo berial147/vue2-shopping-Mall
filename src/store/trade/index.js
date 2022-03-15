@@ -20,6 +20,7 @@ const actions = {
             commit('GETUSERADDRESS',result.data)
         }
     },
+    //获取订单信息
     async getOrderData({commit}) {
         let result = await reqOrderInfo()
         if (result.code == 200) {
