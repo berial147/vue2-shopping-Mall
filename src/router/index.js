@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
+import store from '@/store'
 //使用插件
 
 
@@ -27,9 +28,35 @@ const router =  new VueRouter({
     },
  
 })  
- router.beforeEach((to, from, next) => {
-    console.log(to.name)
-    next()
+ router.beforeEach( async(to, from, next) => {
+     next()
+    let token = store.state.user.token
+    let name = store.state.user.userInfo.name
+    if (token) {
+        if (to.path == '/login') {
+            next('/home')
+            console.log(111)
+        } else {
+            if (name) {
+                next()
+            } else {
+              
+                try {
+                    await store.dispatch('getUserInfo')
+                    next()
+                } catch(error) {
+                    //token失效了获取不到用户信息，重新登录
+                    //清除token
+                    await store.dispatch('userLogout')
+                    next()
+                }
+            }
+        }
+    } else {
+
+        //未登录暂时没有处理完毕
+        next()
+    }
 })  
 
 

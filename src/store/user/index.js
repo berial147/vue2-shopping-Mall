@@ -61,12 +61,11 @@ const actions = {
         let result = await reqUserInfo()
         console.log(result)
         if (result.code == 200) {
-            console.log('11311')
             commit('USERINFO', result.data)
             return 'ok'
         } else {
             return Promise.reject(new Error('faile'))
-        }
+        }   
     },
     async userLogout({commit}) {
         let result = await reqLogout()

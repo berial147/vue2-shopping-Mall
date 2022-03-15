@@ -6,6 +6,7 @@ import Search from '../pages/Search'
 import Detail from '../pages/Detail'
 import AddCartSuccess from '../pages/AddCartSuccess'
 import ShopCart from '../pages/ShopCart'
+import Trade from '../pages/Trade'
 
 //路由配置信息
 export default [
@@ -49,10 +50,15 @@ export default [
             component: ShopCart,
             meta: {isShow: true}
         },
+        {
+            path: "/trade",
+            component: Trade,
+            meta: { isShow: true}
+        },
         //重定向，在项目跑起来的时候立马让它跑到首页的位置
 
         {
             path: "*",
             redirect: "/home"
-        },
+        }
 ]
