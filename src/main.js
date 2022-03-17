@@ -5,7 +5,7 @@ import TypeNav from '@/components/TypeNav'
 import Carousel from '@/components/Carousel'
 import Pagination from '@/components/Pagination'
 
-import { Button, MessageBox} from 'element-ui'
+import { Button, MessageBox, Message} from 'element-ui'
 
 // Vue.config.productionTip = false
 //引入路由
@@ -22,6 +22,7 @@ import * as API from '@/api'
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$message = Message;
 
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carousel.name, Carousel)

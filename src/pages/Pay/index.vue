@@ -84,25 +84,37 @@
 </template>
 
 <script>
+  import QRCode from 'qrcode'
+import { done } from 'nprogress'
   export default {
     name: 'Pay', 
+    data() {
+      return {
+        payInfo: '',
+        timer: null,
+        code: ''
+      }
+    },
     computed: {
       orderId() {
         return this.$route.query.orderId
       }
     },
     mounted() {
-      console.log('index')
       this.getPayInfo()
     },
     methods: {
       async getPayInfo() {
         console.log('23')
         let result = await this.$API.reqPayInfo(this.orderId)
-        console.log(result)
+        if (result.code == 200) {
+          this.payInfo = result.data
+        }
+        // console.log(QRCode.toDataURL(this.payInfo.codeUrl) )
       },
-      open() {
-        this.$alert('这是一段内容', '标题名称', {
+       async open() {
+        let url = await QRCode.toDataURL(this.payInfo.codeUrl)
+        this.$alert(`<img src=${url} />`, "请你微信付款", {
           center:true,
           callback: action => {
             this.$message({
@@ -113,8 +125,39 @@
           showCancelButton: true,
           cancelButtonText: '支付遇到问题',
           confirmButtonText: '支付完成',
-          showClose: false
+          showClose: false,
+          dangerouslyUseHTMLString: true,
+          beforeClose: (type, instance, done) => {
+            if (type == 'cancel') {
+              clearInterval(this.timer)
+              this.timer = null
+              done()
+            } else {
+              clearInterval(this.timer)
+              this.timer = null
+              done()
+              this.$router.push('/paysuccess')
+            }
+          } 
         });
+
+        //你需要知道支付成功|失败
+        //支付成功，路由跳转，如果支付失败，提示信息
+        //定时器没有，开启一个新的定时器
+        if (!this.timer) {
+          this.timer = setInterval(async () => {
+            let result = await this.$API.reqPayStatus(this.orderId)
+            console.log(result)
+            if (result.code == 205) {
+              clearInterval(this.timer)
+              this.timer = null
+              this.code = result.code
+              this.$msgbox.close()
+              //跳转到下一个路由
+              this.$router.push('/paysuccess')
+            }
+          }, 1000);
+        }
       }
 
     } 
