@@ -17,8 +17,8 @@
           </p>
         </div>
         <div class="typeList">
-          <a href="###">我的订单</a>
-          <a href="###">我的购物车</a>
+          <router-link to="/center/myorder">我的订单</router-link>
+          <a @click="getPush">我的购物车</a>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
@@ -89,6 +89,9 @@ export default {
         alert('退出失败')
       }
     },
+    getPush() {
+      this.$router.push('/shopcart')
+    }
   },
   mounted() {
     this.$bus.$on("clear", () => {

@@ -53,7 +53,12 @@ const router =  new VueRouter({
             }
         }
     } else {
-
+        let toPath = to.path
+        if (toPath.indexOf('/trade') != -1 || toPath.indexOf('/pay') != -1 || toPath.indexOf('/center')!= -1 || toPath.indexOf('/shopcart') != -1) {
+            next('/login?redirect=' + toPath)
+        } else {
+            next()
+        }
         //未登录暂时没有处理完毕
         next()
     }
