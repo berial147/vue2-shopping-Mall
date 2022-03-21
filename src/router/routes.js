@@ -58,12 +58,26 @@ export default [
         {
             path: "/trade",
             component: Trade,
-            meta: { isShow: true}
+            meta: { isShow: true},
+            beforeEnter: (to, from, next) => {
+                if (from.path == '/shopcart') {
+                    next()
+                } else {
+                    next(false)
+                }
+            }
         },
         {
             path: "/pay",
             component: Pay,
-            meta: {isShow: true}
+            meta: {isShow: true},
+            beforeEnter: (to, from, next) => {
+                if (from.path == '/trade') {
+                    next()
+                } else {
+                    next(false)
+                }
+            }
         },
         {
             path: "/paysuccess",

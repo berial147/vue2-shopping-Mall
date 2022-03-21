@@ -17,6 +17,11 @@ import store from './store'
 //统一接口api文件里面全部请求函数
 import * as API from '@/api'
 
+//引入插件
+import VueLazyload from 'vue-lazyload'
+import myPlugins from '@/plugins/myPlugins'
+//引入表单校验插件
+import "@plugins/validate"
 //测试
 // import { reqGetBannerList } from '@/api'
 
@@ -29,6 +34,10 @@ Vue.component(Carousel.name, Carousel)
 Vue.component(Pagination.name, Pagination)
 Vue.component(Button.name, Button)
 import '@/mock/mockServe'
+
+//注册插件
+Vue.use(VueLazyload)
+Vue.use(myPlugins)
 
 //引入swiper样式
 import "swiper/css/swiper.css"
