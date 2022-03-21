@@ -21,7 +21,7 @@ import * as API from '@/api'
 import VueLazyload from 'vue-lazyload'
 import myPlugins from '@/plugins/myPlugins'
 //引入表单校验插件
-import "@plugins/validate"
+import "@/plugins/validate"
 //测试
 // import { reqGetBannerList } from '@/api'
 
@@ -34,9 +34,12 @@ Vue.component(Carousel.name, Carousel)
 Vue.component(Pagination.name, Pagination)
 Vue.component(Button.name, Button)
 import '@/mock/mockServe'
+import logo from '@/assets/logo.png'
 
 //注册插件
-Vue.use(VueLazyload)
+Vue.use(VueLazyload, {
+  loading: logo
+})
 Vue.use(myPlugins)
 
 //引入swiper样式
