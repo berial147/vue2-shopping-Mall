@@ -85,7 +85,7 @@
 
 <script>
   import QRCode from 'qrcode'
-import { done } from 'nprogress'
+  import { done } from 'nprogress'
   export default {
     name: 'Pay', 
     data() {

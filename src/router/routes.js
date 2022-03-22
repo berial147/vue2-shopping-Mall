@@ -1,17 +1,17 @@
-//引入路由组件
-import Home from '../pages/Home'
-import Login from '../pages/Login'
-import Register from '../pages/Register'
-import Search from '../pages/Search'
-import Detail from '../pages/Detail'
-import AddCartSuccess from '../pages/AddCartSuccess'
-import ShopCart from '../pages/ShopCart'
-import Trade from '../pages/Trade'
-import Pay from '../pages/Pay'
-import PaySuccess from '../pages/PaySuccess'
-import Center from '../pages/Center'
-import MyOrder from '../pages/Center/myOrder'
-import GroupOrder from '../pages/Center/groupOrder'
+//引入路由组件(路由懒加载)
+const Home = () => import('../pages/Home')
+const Login = () => import('../pages/Login')
+const Register = () => import('../pages/Register')
+const Search = () => import('../pages/Search')
+const Detail = () => import('../pages/Detail')
+const AddCartSuccess = () => import('../pages/AddCartSuccess')
+const ShopCart = () => import('../pages/ShopCart')
+const Trade = () => import('../pages/Trade')
+const Pay = () => import('../pages/Pay')
+const PaySuccess = () => import('../pages/PaySuccess')
+const Center = () => import('../pages/Center')
+const MyOrder = () => import('../pages/Center/myOrder')
+const GroupOrder = () => import('../pages/Center/groupOrder')
 
 //路由配置信息
 export default [
