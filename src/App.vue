@@ -7,20 +7,19 @@
 </template>
 
 <script>
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 export default {
-  name: '',
+  name: "",
   components: {
     Header,
-    Footer
+    Footer,
   },
   mounted() {
     //派发一个action || 获取商品分类的三级列表数据
-    this.$store.dispatch("categoryList")
-    // console.log('66')
-  }
-}
+    this.$store.dispatch("categoryList");
+  },
+};
 </script>
 
 <style></style>
